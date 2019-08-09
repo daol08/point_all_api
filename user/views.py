@@ -5,12 +5,10 @@ from rest_framework.views import APIView
 from rest_framework.decorators import action
 
 from rest_framework.response import Response
-
+from rest_framework.generics import GenericAPIView
 
 
 from item.serializers import UserItemSerializer
-
-
 
 from .models import User
 
@@ -36,15 +34,15 @@ class MeView(APIView):
 
 
 
-class MyItemsView(APIView):
+class MyItemsView(GenericAPIView):
 
     permission_classes = [permissions.IsAuthenticated]
-
+    serializer_class = UserItemSerializer
 
 
     def get(self, request):
 
-        serializer = UserItemSerializer(request.user.items.all(), many=True)
+        serializer = UserItemSerializer(request.user.items.all(), many=True, context=self.get_serializer_context())
 
         return Response(serializer.data)
 

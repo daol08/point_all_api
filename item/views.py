@@ -66,6 +66,6 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
 
         category = self.get_object()
 
-        serializer = ItemSerializer(category.items.all(), many=True)
+        serializer = ItemSerializer(category.items.all(), many=True, context=self.get_serializer_context())
 
         return Response(serializer.data)
