@@ -5,12 +5,12 @@ from django.http import HttpResponse
 from rest_framework.decorators import api_view,action
 from rest_framework.response import Response
 from django.db import transaction
-
-
+from .permissions import IsPurchase, IsSafeMethod
+from rest_condition import Or, And
 class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = (Or(IsSafeMethod, permissions.IsAdminUser, And(IsPurchase, permissions.IsAuthenticated)),)
 
     @action(detail=True, methods=['POST'])
     def purchase(self, request, *args, **kwargs ):

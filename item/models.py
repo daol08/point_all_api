@@ -18,3 +18,4 @@ class UserItem(models.Model):
     user = models.ForeignKey(User, related_name='items', on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     count = models.IntegerField(default=0)
+

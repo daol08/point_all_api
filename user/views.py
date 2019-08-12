@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, mixins
 
 from rest_framework.views import APIView
 
@@ -7,7 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
 
-
+from django.contrib.auth.hashers import make_password
 from item.serializers import UserItemSerializer
 
 from .models import User
@@ -50,7 +50,7 @@ class MyItemsView(GenericAPIView):
 
 
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+class UserViewSet(viewsets.ReadOnlyModelViewSet, mixins.CreateModelMixin):
 
     queryset = User.objects.all()
 
@@ -67,3 +67,8 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         serializer = UserItemSerializer(user.items.all(), many=True)
 
         return Response(serializer.data)
+
+    def perform_create(self, serializer):
+        serializer.save(
+            password = make_password(self.request.data['password'])
+        )
