@@ -39,4 +39,4 @@ class HistorySerializer(serializers.ModelSerializer):
     items = HistoryItemSerializer(many=True)
     class Meta:
         model = History
-        fields = ['user', 'created', 'is_refunded', 'items']
+        fields = ['id','user', 'created', 'is_refunded', 'items']
