@@ -1,13 +1,14 @@
 from rest_framework import serializers
-from .models import Item, UserItem, Category, HistoryItem, History
-
+from .models import Item, UserItem, Category, HistoryItem, History, CategoryItem
 
 
 
 class CategorySerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Category
         fields = ['id', 'title']
+
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -18,6 +19,13 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields =['id', 'title', 'description', 'created', 'price', 'image', 'category',  'category_id']
+
+class CategoryItemSerializer(serializers.ModelSerializer):
+    item = ItemSerializer()
+    category = CategorySerializer()
+    class Meta:
+        model = CategoryItem
+        fields = ['category', 'item']
 
 
 
@@ -40,3 +48,4 @@ class HistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = History
         fields = ['id','user', 'created', 'is_refunded', 'items']
+

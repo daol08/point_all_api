@@ -28,3 +28,8 @@ class HistoryItem(models.Model):
     history = models.ForeignKey(History, related_name='items', on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     count = models.IntegerField(default=0)
+
+
+class CategoryItem(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)

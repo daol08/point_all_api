@@ -1,12 +1,16 @@
 from rest_framework import viewsets,permissions, status
-from .models import Item, UserItem, Category,History, HistoryItem
-from .serializers import ItemSerializer, UserItemSerializer, CategorySerializer,HistoryItemSerializer, HistorySerializer
+from .models import Item, UserItem, Category,History, HistoryItem, CategoryItem
+from .serializers import ItemSerializer, UserItemSerializer, CategorySerializer,HistoryItemSerializer, HistorySerializer,CategoryItemSerializer
 from django.http import HttpResponse
 from rest_framework.decorators import api_view,action
 from rest_framework.response import Response
 from django.db import transaction
 from .permissions import IsPurchase, IsSafeMethod
 from rest_condition import Or, And
+
+
+
+
 class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
@@ -112,3 +116,10 @@ class HistoryViewSet(viewsets.ReadOnlyModelViewSet):
 
         serializer = self.get_serializer(history)
         return Response()
+
+
+
+class CategoryItemViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = CategoryItem.objects.all()
+    serializer_class = CategoryItemSerializer
+
