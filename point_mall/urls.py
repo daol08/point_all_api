@@ -25,5 +25,6 @@ urlpatterns = [
     path('media/uploads/item_images/<str:file_name>/', views.image_view),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('categories/', include(('item.urls.category_urls'))),
+    path('history/', include(('item.urls.history_urls'))),
 
 ]
