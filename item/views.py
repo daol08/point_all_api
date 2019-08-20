@@ -1,6 +1,6 @@
 from rest_framework import viewsets,permissions, status
-from .models import Item, UserItem, Category,History, HistoryItem, CategoryItem
-from .serializers import ItemSerializer, UserItemSerializer, CategorySerializer,HistoryItemSerializer, HistorySerializer,CategoryItemSerializer
+from .models import Item, UserItem, Category,History, HistoryItem,Tag
+from .serializers import ItemSerializer, UserItemSerializer, CategorySerializer,HistoryItemSerializer, HistorySerializer
 from django.http import HttpResponse
 from rest_framework.decorators import api_view,action
 from rest_framework.response import Response
@@ -15,6 +15,49 @@ class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     permission_classes = (Or(IsSafeMethod, permissions.IsAdminUser, And(IsPurchase, permissions.IsAuthenticated)),)
+
+    def perform_create(self, serializer):
+        item = serializer.save()
+        category_ids = self.request.data['category_ids'].split(',')
+        categories = Category.objects.filter(id__in=category_ids)
+        item.categories.set(categories)
+
+        tags = self.request.data['tags'].split(',')
+        for tag in tags:
+            tag, is_created = Tag.objects.get_or_create(title=tag)
+            item.tags.add(tag)
+
+
+
+    def perform_update(self, serializer):
+        item = serializer.save()
+        category_ids = self.request.data['category_ids'].split(',')
+        categories = Category.objects.filter(id__in=category_ids)
+        item.categories.set(categories)
+        tags = self.request.data['tags'].split(',')
+        tag_list = []
+        for tag in tags:
+            tag, is_created = Tag.objects.get_or_create(tag = tag)
+            tag_list.append(tag)
+            item.tags.set(tag_list)
+
+    @action(detail=True, methods=['POST','DELETE'])
+    def tags(self, request, *args, **kwargs):
+        item = self.get_object()
+        if request.method == 'POST':
+            for tag in request.data['tags']:
+                tag, is_created = Tag.objects.get_or_create(title=tag)
+                item.tags.add(tag)
+        elif request.method == 'DELETE':
+            for tag in request.data['tags']:
+                try:
+                    tag = Tag.objects.get(title= tag)
+                    item.tags.remove(tag)
+                except Tag.DoesNotExist:
+                    pass
+
+        return  Response(self.get_serializer(item).data)
+
 
     @action(detail=True, methods=['POST'])
     def purchase(self, request, *args, **kwargs ):
@@ -117,9 +160,4 @@ class HistoryViewSet(viewsets.ReadOnlyModelViewSet):
         serializer = self.get_serializer(history)
         return Response()
 
-
-
-class CategoryItemViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = CategoryItem.objects.all()
-    serializer_class = CategoryItemSerializer
 
