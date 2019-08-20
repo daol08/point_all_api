@@ -26,5 +26,5 @@ urlpatterns = [
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('categories/', include(('item.urls.category_urls'))),
     path('history/', include(('item.urls.history_urls'))),
-
+    path('tags/', include(('item.urls.tag_urls'))),
 ]

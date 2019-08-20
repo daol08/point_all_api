@@ -1,13 +1,13 @@
 from rest_framework import viewsets,permissions, status
 from .models import Item, UserItem, Category,History, HistoryItem,Tag
-from .serializers import ItemSerializer, UserItemSerializer, CategorySerializer,HistoryItemSerializer, HistorySerializer
+from .serializers import ItemSerializer, UserItemSerializer, CategorySerializer,HistoryItemSerializer, HistorySerializer, TagSerializer
 from django.http import HttpResponse
 from rest_framework.decorators import api_view,action
 from rest_framework.response import Response
 from django.db import transaction
 from .permissions import IsPurchase, IsSafeMethod
 from rest_condition import Or, And
-
+from rest_framework.views import APIView
 
 
 
@@ -161,3 +161,17 @@ class HistoryViewSet(viewsets.ReadOnlyModelViewSet):
         return Response()
 
 
+class TagView(APIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+
+    def get(self, request, tag):
+        items =[]
+        try:
+            tag = Tag.objects.get(title=tag)
+            items = tag.items.all()
+        except Tag.DoesNotExist:
+            pass
+        return Response(
+            ItemSerializer(items, many=True, context={'request' : request}).data
+        )
