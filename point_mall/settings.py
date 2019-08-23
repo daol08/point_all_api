@@ -125,10 +125,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-AWS_ACCESS_KEY_ID = 'ASIA4AN56UZNHLTBQ3NG'
-AWS_SECRET_ACCESS_KEY = 'T/tPJc3IEFUkxQScPtNf+GASdnTz2b9pq3ow29D2'
-AWS_SESSION_TOKEN= 'FQoGZXIvYXdzEFwaDGplTbNmCE2YWt/qBiL/AdLN1UbDWlF1pyF4qwU/HBtpWGLT4iT8uvN+74gpQka+yiag9XRuvqcz7/7+bcLCjFQQVHJjG6yoVOmKVId9DihIxAf85i4RFpT6VseBc8vqidg3MtwbKJ+1OrIkRyBpbI2HC3XPUwkwrAPB+kymV5jcywqTqerf+J5OlYkT9V/XYSLKHBBVQhlFLe+n01RzvS205/lBTCJA5ZPWR8VcvVQQVpGPeeJvc1R3gs2fdNodesx1eBEZ26zEiBPuU6s6XDLkY48A/LfyvB1uZCv3l+ftyrodxKrU99MF4k2cXBlw03UFrnVCvjW/QUdZtbjIGNcoJLFj0zzRoPt8aLJsLijOl/3qBQ=='
-
+AWS_ACCESS_KEY_ID = ''
+AWS_SECRET_ACCESS_KEY = ''
+AWS_SESSION_TOKEN= ''
 
 
 AWS_STORAGE_BUCKET_NAME = 'cdn.pointmall.daol'
