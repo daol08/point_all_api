@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'pointmall',
         'USER': 'root',
         'PASSWORD': 'daol3545',
-        'HOST': 'pointmall.cwvoupwbjov2.us-east-1.rds.amazonaws.com',
+        'HOST': 'pointmall.colpkirgwcim.ap-northeast-2.rds.amazonaws.com',
         'PORT': '3306'
     }
 }
@@ -125,13 +125,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-AWS_ACCESS_KEY_ID = ''
-AWS_SECRET_ACCESS_KEY = ''
-AWS_SESSION_TOKEN= ''
 
 
-AWS_STORAGE_BUCKET_NAME = 'cdn.pointmall.daol'
-AWS_S3_CUSTOM_DOMAIN = 'd2mktct05g77aw.cloudfront.net'
+AWS_STORAGE_BUCKET_NAME = 'cdn.pointmall.daol1'
+AWS_S3_CUSTOM_DOMAIN = 'd2puh9ez8m0dr4.cloudfront.net'
 AWS_S3_URL = 'https://%s/' % AWS_S3_CUSTOM_DOMAIN
 AWS_S3_SIGNATURE_VERSION = 's3v4'
 STATIC_URL = '/static/'
@@ -145,7 +142,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_LOCATION = 'assets/'
 ASSET_URL = '%s%s' % (AWS_S3_URL, AWS_LOCATION)
-DEFAULT_FILE_STORAGE = 'point_mall.storage.Filestorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
 REST_FRAMEWORK = {
